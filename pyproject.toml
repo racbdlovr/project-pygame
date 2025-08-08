@@ -1,0 +1,15 @@
+[project]
+name = "project-pygame"
+version = "0.1.0"
+description = "Boot.dev: Asteroid"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pygame==2.6.1",
+]
+
+[dependency-groups]
+dev = [
+    "pygame==2.6.1",
+]
+
