@@ -12,6 +12,11 @@ def main():
     clock = pygame.time.Clock()
     # Create a Player object at the center of the screen
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    
+    # Create groups for updatable and drawable objects
+    updatables = [player]
+    drawables = [player]
+
     # Delta time in seconds — used to make movement frame-rate independent
     dt = 0 
 
@@ -27,10 +32,14 @@ def main():
                 return  # Exit the game loop and end the program
         # Clear the screen by filling it with black (RGB: 0, 0, 0)
         screen.fill("black")
-        # Update the player state each frame
-        player.update(dt)
-        # Draw the player each frame
-        player.draw(screen)
+        
+        # Update all updatable objects
+        for obj in updatables:
+            obj.update(dt)
+
+        # Draw all drawable objects
+        for obj in drawables:
+            obj.draw(screen)
 
         # Update the full display surface to the screen
         pygame.display.flip()
