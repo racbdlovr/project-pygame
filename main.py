@@ -26,7 +26,9 @@ def main():
             if event.type == pygame.QUIT:
                 return  # Exit the game loop and end the program
         # Clear the screen by filling it with black (RGB: 0, 0, 0)
-        screen.fill("black") 
+        screen.fill("black")
+        # Update the player state each frame
+        player.update(dt)
         # Draw the player each frame
         player.draw(screen)
 

@@ -17,7 +17,36 @@ class Player(CircleShape):
         b = self.position - forward * self.radius - right
         c = self.position - forward * self.radius + right
         return [a, b, c]
+    
+    def rotate(self, dt):
+        self.rotation += PLAYER_TURN_SPEED * dt
 
+    def update(self, dt):
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_a]:
+            self.rotate(-dt)  # Rotate left
+        if keys[pygame.K_d]:
+            self.rotate(dt)   # Rotate right
+        if keys[pygame.K_w]:
+            self.move(dt)
+        if keys[pygame.K_s]:
+            self.move(-dt)    
+
+    def move(self, dt):
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        self.position += forward * PLAYER_SPEED * dt
+
+        # Keep player within screen bounds
+        if self.position.x < self.radius:
+            self.position.x = self.radius
+        elif self.position.x > SCREEN_WIDTH - self.radius:
+            self.position.x = SCREEN_WIDTH - self.radius
+
+        if self.position.y < self.radius:
+            self.position.y = self.radius
+        elif self.position.y > SCREEN_HEIGHT - self.radius:
+            self.position.y = SCREEN_HEIGHT - self.radius
     
 
 
