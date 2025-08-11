@@ -2,6 +2,8 @@
 import pygame
 from constants import *  # Import screen dimensions and other constants from a separate file
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 
 def main():
     # Initialize all imported pygame modules
@@ -10,13 +12,33 @@ def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     # Create a Clock object to manage frame rate and calculate delta time
     clock = pygame.time.Clock()
-    # Create a Player object at the center of the screen
-    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    # Create groups
+    updatables = pygame.sprite.Group()
+    drawables = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
     
-    # Create groups for updatable and drawable objects
-    updatables = [player]
-    drawables = [player]
+    # Create a Player and assign to groups
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    Player.containers = [updatables, drawables]
+    updatables.add(player)
+    drawables.add(player)
 
+
+    
+    # Set static containers for Asteroid class
+    Asteroid.containers = (asteroids, updatables, drawables)
+
+    # Create asteroid instances
+    asteroid1 = Asteroid(100, 100, 30)
+    asteroid2 = Asteroid(300, 200, 40)
+
+
+    # Set static containers for AsteroidField (only updatable)
+    AsteroidField.containers = [updatables]
+
+    # Create an AsteroidField instance
+    asteroid_field = AsteroidField()
+    
     # Delta time in seconds — used to make movement frame-rate independent
     dt = 0 
 
