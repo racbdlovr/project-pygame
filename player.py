@@ -13,7 +13,7 @@ class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0  # in degrees
-
+        self.shoot_timer = 0  # Timer starts at 0
     def draw(self, screen):
         pygame.draw.polygon(screen, "white", self.triangle(), 2)
 # in the player class
@@ -28,19 +28,31 @@ class Player(CircleShape):
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
 
+    
     def update(self, dt):
         keys = pygame.key.get_pressed()
 
+        # Update shoot timer
+        if self.shoot_timer > 0:
+            self.shoot_timer -= dt
+
+        # Handle player input for movement and shooting
         if keys[pygame.K_a]:
-            self.rotate(-dt)  # Rotate left
+            self.rotate(-dt)
         if keys[pygame.K_d]:
-            self.rotate(dt)   # Rotate right
+            self.rotate(dt)
         if keys[pygame.K_w]:
             self.move(dt)
         if keys[pygame.K_s]:
-            self.move(-dt)  
-        if keys[pygame.K_SPACE]:
-            self.shoot()
+            self.move(-dt)
+
+        # Only shoot if cooldown has expired
+        if keys[pygame.K_SPACE] and self.shoot_timer <= 0:
+            self.shoot_timer = PLAYER_SHOOT_COOLDOWN
+            return self.shoot()  # Return the shot so it can be added to the game
+
+
+
   
 
     def move(self, dt):
