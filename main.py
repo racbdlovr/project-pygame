@@ -66,16 +66,19 @@ def main():
             obj.update(dt)
 
         # Check for collisions between player and asteroids
-        for asteroid in asteroids:
+        
+        for asteroid in list(asteroids):  # Use list() to safely modify group during iteration
+        #for asteroid in asteroids:
+            # Check for collisions between shots and asteroids
+            for shot in list(shots):  # Use list() to safely modify group during iteration
+                if asteroid.collides_with(shot):
+                    shot.kill()
+                    asteroid.split() # This handles both killing and spawning new asteroids
+
             if player.collides_with(asteroid):
                 print("Game over!")
                 pygame.quit()
                 sys.exit()
-        # Check for collisions between shots and asteroids
-            for shot in shots:
-                if asteroid.collides_with(shot):
-                    asteroid.kill()
-                    shot.kill()
         
 
         # Draw all drawable objects
