@@ -4,6 +4,7 @@ from constants import *  # Import screen dimensions and other constants from a s
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
+from shot import Shot
 import sys
 # Main function to run the game
 def main():
@@ -17,12 +18,16 @@ def main():
     updatables = pygame.sprite.Group()
     drawables = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
     
     # Create a Player and assign to groups
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     Player.containers = [updatables, drawables]
     updatables.add(player)
     drawables.add(player)
+
+    Shot.containers = [shots, updatables, drawables]
+
 
 
     

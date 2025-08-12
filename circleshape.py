@@ -26,3 +26,6 @@ class CircleShape(pygame.sprite.Sprite):
         """Check if this circle collides with another CircleShape."""
         distance = self.position.distance_to(other.position)
         return distance < (self.radius + other.radius)
+    
+    
+
