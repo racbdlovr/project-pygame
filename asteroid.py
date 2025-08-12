@@ -12,45 +12,35 @@ import random
 class Asteroid(CircleShape):
     containers = []  # Will be set in main.py
     
-    def __init__(self, x, y, radius):
-        super().__init__(x, y, radius)
-        for group in Asteroid.containers:
+    def __init__(self, x, y, radius): # Initialize the asteroid with position and radius
+        super().__init__(x, y, radius) 
+        for group in Asteroid.containers: # Add this asteroid to all specified groups
             group.add(self)
 
-    def draw(self, surface):
+    def draw(self, surface): # Draw the asteroid as a circle on the given surface
         pygame.draw.circle(surface, "white", self.position, self.radius, width = 2)
 
-    def update(self, dt):
+    def update(self, dt): # Update the asteroid's position based on its velocity and delta time
         self.position += self.velocity * dt
-    
-    
     
     def split(self):
         # Always kill the current asteroid
         self.kill()
-
         # If it's already small, don't split further
         if self.radius <= ASTEROID_MIN_RADIUS:
             return
-
-        
     # Compute new radius
         new_radius = self.radius - ASTEROID_MIN_RADIUS
-
         # Generate a random angle between 20 and 50 degrees
         random_angle = random.uniform(20, 50)
-
         # Create two new velocity vectors rotated in opposite directions
         velocity1 = self.velocity.rotate(random_angle) * 1.2
         velocity2 = self.velocity.rotate(-random_angle) * 1.2
-
         # Create two new asteroids at the same position
         asteroid1 = Asteroid(self.position.x, self.position.y, new_radius)
         asteroid1.velocity = velocity1
-
         asteroid2 = Asteroid(self.position.x, self.position.y, new_radius)
         asteroid2.velocity = velocity2
-
         # Add them to the appropriate groups
         for group in Asteroid.containers:
             group.add(asteroid1)
