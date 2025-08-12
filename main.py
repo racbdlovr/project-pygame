@@ -4,7 +4,8 @@ from constants import *  # Import screen dimensions and other constants from a s
 from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
-
+import sys
+# Main function to run the game
 def main():
     # Initialize all imported pygame modules
     pygame.init()
@@ -58,6 +59,13 @@ def main():
         # Update all updatable objects
         for obj in updatables:
             obj.update(dt)
+
+        # Check for collisions between player and asteroids
+        for asteroid in asteroids:
+            if player.collides_with(asteroid):
+                print("Game over!")
+                pygame.quit()
+                sys.exit()
 
         # Draw all drawable objects
         for obj in drawables:
